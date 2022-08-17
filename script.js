@@ -34,7 +34,7 @@ const paddle = {
 function drawPaddle() {
     ctx.beginPath();
     ctx.rect(paddle.x, paddle.y, paddle.w, paddle.h);
-    ctx.fillStyle = '#0095dd'
+    ctx.fillStyle = '#333'
     ctx.fill();
     ctx.closePath();
 }
@@ -66,7 +66,7 @@ function drawBricks() {
         column.forEach(brick => {
             ctx.beginPath();
             ctx.rect(brick.x, brick.y, brick.w, brick.h);
-            ctx.fillStyle = brick.visible ? '#0095dd' : 'transparent';
+            ctx.fillStyle = brick.visible ? '#e6a224' : 'transparent';
             ctx.fill();
             ctx.closePath();
         })
@@ -79,7 +79,7 @@ function drawBricks() {
 function drawBall() {
     ctx.beginPath();
     ctx.arc(ball.x, ball.y, ball.size, 0, Math.PI * 2);
-    ctx.fillStyle = '#0095dd';
+    ctx.fillStyle = '#333';
     ctx.fill();
     ctx.closePath()
 }
