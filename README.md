@@ -8,6 +8,7 @@ Game where you control a paddle with the arrow keys to bounce a ball up to break
 - Use canvas paths to draw shapes
 - Add animation with requestAnimationFrame(cb)
 - Move paddle on arrow key press
+- Move paddle on screen touch on smartphones
 - Add collision detection
 - Keep score
 - Add rules button with slider

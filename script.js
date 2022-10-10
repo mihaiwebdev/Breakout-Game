@@ -1,24 +1,42 @@
 const rulesBtn = document.getElementById('rules-btn')
 const closeBtn = document.getElementById('close-btn')
+const touchLeft = document.querySelector('.touch-left')
+const touchRight = document.querySelector('.touch-right')
 const rules = document.getElementById('rules')
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
 
 let score = 0
+let winningScore = 45
+let brickRowCount = 9;
+let brickColumnCount = 5;
+// ball position on Y
+let ballY = canvas.height / 2
+// Brick position on X
+let brickX = 45
 
-const brickRowCount = 9;
-const brickColumnCount = 5;
+// for smartphones
+if (window.innerWidth < 805) {
+    canvas.width = 350
+    canvas.height = window.innerHeight / 1.2
+    winningScore = 32
+    brickRowCount = 4
+    brickColumnCount = 8
+    ballY = canvas.height / 1.5
+    brickX = 20
+}
 
 // Create ball props
-const ball = {
+let ball = {
     x: canvas.width / 2,
-    y: canvas.height / 2,
+    y: ballY,
     size: 10,
     speed: 4,
     dx: 4,
     dy: -4
 };
+
 
 // Create paddle props
 const paddle = {
@@ -44,7 +62,7 @@ const brickInfo = {
     w: 70,
     h: 20,
     padding: 10,
-    offsetX: 45,
+    offsetX: brickX,
     offsetY: 60,
     visible: true
 }
@@ -86,14 +104,15 @@ function drawBall() {
 
 // Draw score on canvas
 function drawScore() {
-    ctx.font = '20px Arial';
+    ctx.font = '20px comic sans ms';
     ctx.fillText(`Score: ${score}`, canvas.width - 100, 30);
 }
 // Draw high score on canvas 
 
 function drawHighScore() {
-    ctx.font = '20px Arial';
-    ctx.fillText(`High Score: ${localStorage.getItem('highscore')}`, canvas.width - 450, 30)
+    ctx.font = '20px comic sans ms';
+    ctx.fillStyle = 'green'
+    ctx.fillText(`High Score: ${localStorage.getItem('highscore')}`, 20, 30)
 }
 
 // Move paddle on canvas
@@ -165,7 +184,7 @@ function moveBall() {
 function increaseScore() {
     score++;
 
-    if (score % (brickRowCount * brickRowCount) === 0) {
+    if (score === winningScore) {
         showAllBricks();
         alert('Congrats, WOW YOU WON!')
     }
@@ -219,11 +238,29 @@ function keyUp(e) {
 }
 
 
-
 // Keyboard event handlers
 document.addEventListener('keydown', keyDown);
 document.addEventListener('keyup', keyUp);
+window.addEventListener('touchstart', (e) => {
 
+    paddle.speed = 8
+    if (e.touches[0].clientX < window.innerWidth / 2) {
+        paddle.dx = -paddle.speed
+        touchLeft.classList.add('animate')
+
+    } else {
+        paddle.dx = paddle.speed
+        touchRight.classList.add('animate')
+
+    }
+
+})
+window.addEventListener('touchend', (e) => {
+    paddle.speed = 0
+    paddle.dx = paddle.speed
+    touchRight.classList.remove('animate')
+    touchLeft.classList.remove('animate')
+})
 // Rules and close event handlers
 rulesBtn.addEventListener('click', () => {
     rules.classList.add('show');
